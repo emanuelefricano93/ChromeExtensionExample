@@ -10,11 +10,17 @@ chrome.storage.sync.get('colors', function(data) {
 	//add a callback for onclick
 	buttonColor.onclick = function (element) {
 		//let color = element.target.value;
-		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+/* 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 			chrome.tabs.executeScript(
 				tabs[0].id,
 				{code: 'document.body.style.backgroundColor = "' + color + '";'});
+		}); */
+		chrome.storage.sync.set({'lastSelectedColor': color}, function(data) {
+			chrome.tabs.executeScript({
+				file: "content-script.js"
+			});
 		});
+
 	};
 	page.appendChild(buttonColor);
   });
